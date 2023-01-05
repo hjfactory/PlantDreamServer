@@ -17,6 +17,9 @@
   },
   "homepage": "https://github.com/hjfactory/PlantDreamServer#readme",
   "dependencies": {
-    "express": "^4.18.2"
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1"
   }
 }
