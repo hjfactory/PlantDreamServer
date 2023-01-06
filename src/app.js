@@ -4,7 +4,19 @@ const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 dotenv.config();
 
+const { sequelize } = require('./models');
+
+// 라우터 설정
 const routeV1 = require('./routes/routeV1');
+
+// 데이터베이스 연결
+sequelize.sync({ force: false })
+    .then(() => {
+        console.log('Connected database.');
+    })
+    .catch((err) => {
+        console.error(err);
+    });
 
 const app = express();
 
