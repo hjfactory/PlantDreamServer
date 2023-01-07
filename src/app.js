@@ -21,10 +21,11 @@ sequelize.sync({ force: false })
 const app = express();
 
 app.set('port', process.env.PORT || 8080);
-app.use(morgan('dev'));
 
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(morgan('dev'));
 
 app.use('/v1', routeV1);
 
