@@ -33,6 +33,8 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: true,
       paranoid: true,
     });
+
+    console.log(User === sequelize.models.User)
   
     return User;
   };
