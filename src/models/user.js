@@ -1,29 +1,36 @@
-module.exports = (sequelize, DataTypes) => {
+const { Sequelize } = require("sequelize");
+// const { sequelize } = require("./index");
+
+module.exports = (sequelize) => {
 
     const User = sequelize.define("User", {
       id: {
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
         primaryKey: true,
         comment: "UUID",
       },
       email: {
-        type: DataTypes.STRING(100),
+        type: Sequelize.STRING(100),
         validate: {
           isEmail: true,
         },
         comment: "이메일",
       },
       password: {
-        type: DataTypes.STRING(60),
-        comment: "비밀번호",
+        type: Sequelize.STRING,
+        comment: "암호화된 비밀번호",
+      },
+      salt: {
+        type: Sequelize.STRING,
+        comment: "비밀번호(암호화키)",
       },
       name: {
-        type: DataTypes.STRING(100),
+        type: Sequelize.STRING(100),
         comment: "이름",
       },
       phone: {
-        type: DataTypes.STRING(72),
+        type: Sequelize.STRING(72),
         comment: "전화번호",
       },
     }, {
@@ -34,7 +41,8 @@ module.exports = (sequelize, DataTypes) => {
       paranoid: true,
     });
 
-    console.log(User === sequelize.models.User)
+    User.associate = (db) => {
+    }
   
     return User;
   };
