@@ -1,7 +1,7 @@
 "use strict";
 
 const router = require('express').Router();
-const { User } = require('../models');
+const { User, Seed } = require('../models');
 const crypto = require('crypto');
 
 
@@ -41,17 +41,21 @@ const makePasswordHashed = (email, password) =>
         });
     });
 
-router.post('/auth/create', async (req, res, next) => {
+router.post('/auth/signup', async (req, res, next) => {
     const { email, password, name, phone } = req.body;
     console.log(password);
 
     const user = await User
         .findOne({
-            where: {email: email}
-        })
-        .then((result) => {
-            res.status(409).send({msg: `Aleady exist email: ${result.email}`});
+            where: {email: email}, 
+            raw: true,
         });
+    console.log(user);
+    if(user) {
+        res.status(409).send({msg: `Aleady exist email: ${user.email}`});
+        res.end();
+        return;
+    }
 
     try {
         const { password: encryptedPassword, salt } = await createHashedPassword(password);
@@ -71,13 +75,14 @@ router.post('/auth/create', async (req, res, next) => {
     }
 });
 
-router.post('/auth/login', async (req, res, next) => {
+router.post('/auth/signin', async (req, res, next) => {
     const {email, password: plainPassword} = req.body;
     const password = await makePasswordHashed(email, plainPassword);
 
     const user = await User
         .findOne({
-            where: {email, password}
+            where: {email, password}, 
+            raw: true,
         });
 
     if(user) {
@@ -86,6 +91,30 @@ router.post('/auth/login', async (req, res, next) => {
     else {
         res.status(404).send({msg: '로그인 정보를 확인하세요.'});
     }
+});
+
+router.post('/seeds', async (req, res, next) => {
+    const {title} = req.body;
+    const user_id = "0d78c419-faa5-4267-a05a-1f8be0132b1b";
+    const seed = await Seed.create({
+        user_id,
+        title
+    });
+    if (seed) {
+        res.send({msg: 'success'});
+    }
+
+});
+
+router.get('/seeds', async (req, res, next) => {
+    const seeds = await Seed
+        .findAll({
+            where: {
+                user_id: "0d78c419-faa5-4267-a05a-1f8be0132b1b"
+            }, 
+            raw: true,
+        })
+    res.send(seeds);
 });
 
 module.exports = router;
