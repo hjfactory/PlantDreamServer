@@ -2,8 +2,11 @@
 
 const router = require('express').Router();
 const { User, Seed } = require('../models');
-const crypto = require('crypto');
 
+/// ##########################################
+/// Seeds
+
+const crypto = require('crypto');
 
 // REF - https://zinirun.github.io/2020/12/02/node-crypto-password/
 const createSalt = () =>
@@ -93,6 +96,8 @@ router.post('/auth/signin', async (req, res, next) => {
     }
 });
 
+/// ##########################################
+/// Seeds
 router.post('/seeds', async (req, res, next) => {
     const {title} = req.body;
     const user_id = "0d78c419-faa5-4267-a05a-1f8be0132b1b";
@@ -115,6 +120,69 @@ router.get('/seeds', async (req, res, next) => {
             raw: true,
         })
     res.send(seeds);
+});
+
+router.get('/seeds/:id', async (req, res, next) => {
+    console.log(req.params.id);
+    res.send(
+      {
+        title: "test", 
+        start_date: "2023-01-23",
+        planned_days: 21,
+        plants: [
+          {
+            "date": "2023-01-23",
+            "weight": 1,
+            "msg": "자! 시작합니다."
+          },
+          {
+            "date": "2023-01-24",
+            "weight": 1,
+            "msg": ""
+          },
+          {
+            "date": "2023-01-25",
+            "weight": 2,
+            "msg": ""
+          },
+          {
+            "date": "2023-01-26",
+            "weight": 2,
+            "msg": ""
+          },
+          {
+            "date": "2023-01-27",
+            "weight": 1,
+            "msg": ""
+          },
+          {
+            "date": "2023-01-28",
+            "weight": 1,
+            "msg": ""
+          },
+          {
+            "date": "2023-01-29",
+            "weight": 1,
+            "msg": ""
+          },
+          {
+            "date": "2023-02-01",
+            "weight": 1,
+            "msg": "놓쳤네요."
+          },
+          {
+            "date": "2023-02-02",
+            "weight": 3,
+            "msg": ""
+          },
+          {
+            "date": "2023-02-04",
+            "weight": 1,
+            "msg": "다시 화이팅"
+          },
+        ]
+      }
+    )
 });
 
 module.exports = router;

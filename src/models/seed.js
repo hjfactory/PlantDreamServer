@@ -14,6 +14,11 @@ module.exports = (sequelize) => {
         title: {
             type: Sequelize.STRING(100),
             comment: "제목",
+        },
+        planned_days: {
+            type: Sequelize.INTEGER,
+            defaultValue: 66,
+            comment: "제목",
         }
     }, {
         charset: "utf8", 
