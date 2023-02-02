@@ -99,11 +99,13 @@ router.post('/auth/signin', async (req, res, next) => {
 /// ##########################################
 /// Seeds
 router.post('/seeds', async (req, res, next) => {
-    const {title} = req.body;
+    const {title, planned_days, start_date } = req.body;
     const user_id = "0d78c419-faa5-4267-a05a-1f8be0132b1b";
     const seed = await Seed.create({
         user_id,
-        title
+        title, 
+        planned_days, 
+        start_date
     });
     if (seed) {
         res.send({msg: 'success'});

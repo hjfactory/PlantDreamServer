@@ -19,6 +19,11 @@ module.exports = (sequelize) => {
             type: Sequelize.INTEGER,
             defaultValue: 66,
             comment: "제목",
+        }, 
+        start_date: {
+            type: Sequelize.DATE,
+            defaultValue: Sequelize.NOW,
+            commont: "시작일"
         }
     }, {
         charset: "utf8", 
