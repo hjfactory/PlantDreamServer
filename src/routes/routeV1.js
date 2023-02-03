@@ -12,5 +12,6 @@ router.post('/auth/signin',     AuthController.signIn);
 router.post('/seeds',       SeedController.createSeed);
 router.get('/seeds',        SeedController.getSeeds);
 router.get('/seeds/:id',    SeedController.getSeedItem);
+router.delete('/seeds/:id', SeedController.deleteSeedItem);
 
 module.exports = router;

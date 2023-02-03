@@ -99,6 +99,20 @@ const SeedController = {
         ]
       }
     )
+  }, 
+  deleteSeedItem: async (req, res, next) => {
+    const id = req.params.id;
+    const seed = await Seed.destroy({
+      where: {
+          id,
+          user_id: "0d78c419-faa5-4267-a05a-1f8be0132b1b"
+      }
+    })
+    .then(result => result === 1 ? 
+      res.json({msg: 'success'}) :
+      res.status(400).json({msg: 'failed'})
+      );
+
   }
 }
 
