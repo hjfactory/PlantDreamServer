@@ -14,4 +14,6 @@ router.get('/seeds',        SeedController.getSeeds);
 router.get('/seeds/:id',    SeedController.getSeedItem);
 router.delete('/seeds/:id', SeedController.deleteSeedItem);
 
+router.post('/seeds/:id/plant',   SeedController.createSeedItemPlant)
+
 module.exports = router;

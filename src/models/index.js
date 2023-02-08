@@ -4,6 +4,7 @@ const config = require('../config/config.json')[env];
 const sequelize = new Sequelize(config.database, config.username, config.password, config);
 const User = require('../models/user')(sequelize);
 const Seed = require('../models/seed')(sequelize);
+const Plant = require('../models/plant')(sequelize);
 
 const db = {};
 
@@ -11,7 +12,11 @@ db.sequelize = sequelize;
 
 db.User = User;
 User.associate(db);
+
 db.Seed = Seed;
 Seed.associate(db);
+
+db.Plant = Plant;
+Plant.associate(db);
 
 module.exports = db;

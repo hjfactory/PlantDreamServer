@@ -34,6 +34,7 @@ module.exports = (sequelize) => {
     });
 
     Seed.associate = (db) => {
+        // db.Seed.hasMany(db.Plant);
     }
 
     return Seed;
