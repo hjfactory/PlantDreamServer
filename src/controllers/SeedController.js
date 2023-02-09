@@ -1,5 +1,11 @@
 const { Seed, Plant } = require('../models');
 const { Sequelize } = require("sequelize");
+const moment = require("moment");
+
+const dateOnly = (date) => {
+  var timePortion = date.getTime() % (3600 * 1000 * 24);
+  return new Date(date - timePortion);
+}
 
 const SeedController = {
   createSeed: async (req, res, next) => {
@@ -25,6 +31,25 @@ const SeedController = {
             raw: true,
         })
     res.send(seeds);
+  }, 
+  getSeedsToday: async (req, res, next) => {
+    const seeds = await Seed
+        .findAll({
+            where: {
+                user_id: "0d78c419-faa5-4267-a05a-1f8be0132b1b"
+            }, 
+            raw: true,
+        })
+    const todaySeeds = [];
+    seeds.forEach(item => {
+      console.log(dateOnly(item.start_date), dateOnly(new Date()))
+      todaySeeds.push(item)
+    });
+    // todaySeeds.push({})
+    // const todaySeeds = seeds.map((item) => {
+    //   return {};
+    // });
+    res.send(todaySeeds);
   }, 
   getSeedItem: async (req, res, next) => {
     console.log(req.params.id);
@@ -55,58 +80,6 @@ const SeedController = {
         start_date: seed.start_date,
         planned_days: seed.planned_days,
         plants
-        // : [
-        //   {
-        //     "date": "2023-01-23",
-        //     "weight": 1,
-        //     "msg": "자! 시작합니다."
-        //   },
-        //   {
-        //     "date": "2023-01-24",
-        //     "weight": 1,
-        //     "msg": ""
-        //   },
-        //   {
-        //     "date": "2023-01-25",
-        //     "weight": 2,
-        //     "msg": ""
-        //   },
-        //   {
-        //     "date": "2023-01-26",
-        //     "weight": 2,
-        //     "msg": ""
-        //   },
-        //   {
-        //     "date": "2023-01-27",
-        //     "weight": 1,
-        //     "msg": ""
-        //   },
-        //   {
-        //     "date": "2023-01-28",
-        //     "weight": 1,
-        //     "msg": ""
-        //   },
-        //   {
-        //     "date": "2023-01-29",
-        //     "weight": 1,
-        //     "msg": ""
-        //   },
-        //   {
-        //     "date": "2023-02-01",
-        //     "weight": 1,
-        //     "msg": "놓쳤네요."
-        //   },
-        //   {
-        //     "date": "2023-02-02",
-        //     "weight": 3,
-        //     "msg": ""
-        //   },
-        //   {
-        //     "date": "2023-02-04",
-        //     "weight": 1,
-        //     "msg": "다시 화이팅"
-        //   },
-        // ]
       }
     )
   }, 

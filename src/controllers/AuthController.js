@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { User, LoginToken } = require('../models');
 
 const crypto = require('crypto');
 
@@ -83,12 +83,45 @@ const AuthController = {
         });
 
     if(user) {
+        LoginToken.destroy({
+            where: {
+                email
+            }
+        })
+        LoginToken.create({
+            user_id: user.id, 
+            email,
+            expire_date: new Date() + 7
+        })
+
         res.send({msg: "success"});
     }
     else {
         res.status(404).send({msg: '로그인 정보를 확인하세요.'});
     }
-  } 
+  }, 
+  signOut: async (req, res, next) => {
+    // 토큰을 지우자.
+  }, 
+  credential: async (req, res, next) => {
+    // 토큰을 확인하자.
+    const { email, auth_token } = req.body;
+    console.log(email, auth_token);
+
+    const token = await LoginToken.findOne({
+        where: {
+            token: auth_token, 
+            email
+        }
+    })
+    if (token) {
+        console.log(token.user_id);
+        res.send({msg: "success"})
+    }
+    else {
+        res.status(401).send({msg: "인증실패"})
+    }
+  }
 }
 
 module.exports = AuthController;

@@ -5,6 +5,7 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
 const User = require('../models/user')(sequelize);
 const Seed = require('../models/seed')(sequelize);
 const Plant = require('../models/plant')(sequelize);
+const LoginToken = require('../models/loginToken')(sequelize);
 
 const db = {};
 
@@ -18,5 +19,8 @@ Seed.associate(db);
 
 db.Plant = Plant;
 Plant.associate(db);
+
+db.LoginToken = LoginToken;
+LoginToken.associate(db);
 
 module.exports = db;
