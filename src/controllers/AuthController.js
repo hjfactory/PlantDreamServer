@@ -83,18 +83,17 @@ const AuthController = {
         });
 
     if(user) {
-        LoginToken.destroy({
+        await LoginToken.destroy({
             where: {
                 email
             }
         })
-        LoginToken.create({
+        const token = await LoginToken.create({
             user_id: user.id, 
             email,
             expire_date: new Date() + 7
         })
-
-        res.send({msg: "success"});
+        res.send({msg: "success", token: token.token});
     }
     else {
         res.status(404).send({msg: '로그인 정보를 확인하세요.'});
