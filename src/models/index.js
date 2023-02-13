@@ -12,15 +12,13 @@ const db = {};
 db.sequelize = sequelize;
 
 db.User = User;
-User.associate(db);
-
 db.Seed = Seed;
-Seed.associate(db);
-
 db.Plant = Plant;
-Plant.associate(db);
-
 db.LoginToken = LoginToken;
+
+User.associate(db);
+Seed.associate(db);
+Plant.associate(db);
 LoginToken.associate(db);
 
 module.exports = db;

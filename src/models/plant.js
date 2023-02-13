@@ -31,6 +31,7 @@ module.exports = (sequelize) => {
   );
 
   Plant.associate = (db) => {
+    Plant.belongsTo(db.Seed, {foreignKey: "seed_id", sourceKey: "id"})
   }
 
   return Plant;

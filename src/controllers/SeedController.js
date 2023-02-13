@@ -10,12 +10,13 @@ const dateOnly = (date) => {
 const SeedController = {
   createSeed: async (req, res, next) => {
     const {title, planned_days, start_date } = req.body;
+    console.log(start_date);
     const user_id = "0d78c419-faa5-4267-a05a-1f8be0132b1b";
     const seed = await Seed.create({
         user_id,
         title, 
         planned_days, 
-        start_date
+        start_date: dateOnly(new Date(start_date))
     });
     if (seed) {
         res.send({msg: 'success'});
@@ -33,11 +34,21 @@ const SeedController = {
     res.send(seeds);
   }, 
   getSeedsToday: async (req, res, next) => {
+    const today = dateOnly(new Date());
     const seeds = await Seed
         .findAll({
             where: {
-                user_id: "0d78c419-faa5-4267-a05a-1f8be0132b1b"
+                user_id: "0d78c419-faa5-4267-a05a-1f8be0132b1b", 
             }, 
+            include: [
+              {
+                model: Plant, 
+                where: {date: today},
+                attributes: [],
+                required: false
+              }
+            ],
+            attributes: ['id', 'title', 'start_date', 'planned_days', 'Plants.weight'],
             raw: true,
         })
     const todaySeeds = [];
@@ -102,6 +113,9 @@ const SeedController = {
   createSeedItemPlant: async (req, res, next) => {
     const id = req.params.id;
     let date = req.body.date ? new Date(req.body.date) : new Date();
+    date = dateOnly(date);
+
+    // console.log
 
     const seed = await Seed
       .findOne({
